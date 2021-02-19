@@ -14,7 +14,7 @@ def home(request):
 		'orders': orders,
 		'total_orders': total_orders,
 		'orders_delivered': orders_delivered,
-		'orders_pending': orders_pending
+		'orders_pending': orders_pending,
 	}
 	return render(request, 'accounts/dashboard.html', context)
 
@@ -25,8 +25,18 @@ def products(request):
 	}
 	return render(request, 'accounts/products.html', context)
 
-def customers(request):
+def customers(request, pk):
+	def total_price(orders):
+		t_price=0
+		for order in orders:
+			t_price = t_price + order.product.price
+		return t_price
+	customer = Customer.objects.get(id=pk)
+	orders = customer.order_set.all()
+	tot_price = total_price(orders) 
 	context = {
-
-	}
+		'customer': customer,
+		'orders': orders,
+		'tot_price':tot_price
+		}
 	return render(request, 'accounts/customers.html', context)
