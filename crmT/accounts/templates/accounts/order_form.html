@@ -16,6 +16,11 @@
 				{% endfor %}
 				
 				<br><br>
+				{% for field in form %}
+				<br>
+					{{ field }}
+				<br>	
+				{% endfor %}
 				<input class="btn btn-warning" type="submit" value="Submit">
 
 			</form>
