@@ -23,10 +23,11 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'products' %}">Products</a>
         </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'account_settings'%}">Settings</a>
+        </li> 
         {% endif %}
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="#">Products</a>
-        </li> -->
        </ul>
     </div>
   <!-- </div> -->
