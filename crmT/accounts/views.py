@@ -126,6 +126,7 @@ def registerPage(request):
 			user = form.save()
 			group = Group.objects.get(name='customer')
 			user.groups.add(group)
+			Customer.objects.create(user=user)
 			messages.success(request, 'Acount was created successful for ' + form.cleaned_data.get('username'))
 			return redirect('login')
 
@@ -160,9 +161,24 @@ def logoutUser(request):
 
 
 @login_required(login_url='login')
+@allowed_users(['customer'])
 def userPage(request):
-	
+	orders = request.user.customer.order_set.all()
+	orders_pending = orders.filter(status='Pending').count()
+	total_orders = orders.count()
+	user_products = orders.filter(customer=request.user.customer)
+		
+	def total_price(user_products):
+		t_price=0
+		for prod in user_products:
+			t_price = prod.product.price + t_price
+		return t_price
+	total_value = total_price(user_products)
 	context = {
+		'orders': orders,
+		'total_price': total_value,
+		'total_orders':  total_orders,
+		'orders_pending': orders_pending,
 
 	}
 	return render(request, 'accounts/user.html', context)
