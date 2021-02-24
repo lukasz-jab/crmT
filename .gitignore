@@ -152,4 +152,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-.jpeg
+*.jpeg
